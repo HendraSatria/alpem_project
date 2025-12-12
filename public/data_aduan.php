@@ -6,7 +6,7 @@ require '../config/koneksi.php';
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Aduan - ALPEM</title>
+    <title>ALPEM - Aplikasi Layanan Pengaduan Masyarakat</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,22 +14,22 @@ require '../config/koneksi.php';
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-
 <body>
 
 <!-- ========================= HEADER ========================= -->
-<header class="shadow-sm bg-white">
+<header class="shadow-sm" style="background: #ffffff;">
     <div class="container py-3 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <img src="../assets/img/logo.png" width="90" class="me-4">
+            <img src="../assets/img/logo.png" alt="Logo" width="90" class="me-4">
             <h4 class="m-0 fw-bold text-danger">ALPEM</h4>
         </div>
 
         <nav>
-            <a href="index.php" class="nav-link d-inline mx-2">Beranda</a>
-            <a href="data_aduan.php" class="nav-link d-inline mx-2 fw-bold text-danger">Data Aduan</a>
+            <a href="index.php" class="nav-link d-inline mx-2 fw-semibold text-danger">Beranda</a>
+            <a href="data_aduan.php" class="nav-link d-inline mx-2">Data Aduan</a>
             <a href="tentang.php" class="nav-link d-inline mx-2">Tentang</a>
-           <a href="../auth/login.php" class="btn btn-outline-danger ms-3">Masuk Petugas/Admin</a>
+            <a href="../auth/login.php" class="btn btn-outline-danger ms-3">Masuk Petugas/Admin</a>
+           
         </nav>
     </div>
 </header>

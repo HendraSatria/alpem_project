@@ -41,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Query simpan ke database
     $query = "INSERT INTO Aduan 
-                (Nama_pelapor, Alamat, NIK, Kontak, Lokasi, Bukti_Foto, Deskripsi, tanggal) 
+                (Nama_pelapor, Alamat, NIK, Kontak, Lokasi, Bukti_Foto, Deskripsi) 
               VALUES 
-                ('$nama', '$alamat', '$nik', '$kontak', '$lokasi', '$fotoName', '$deskripsi', NOW())";
+                ('$nama', '$alamat', '$nik', '$kontak', '$lokasi', '$fotoName', '$deskripsi')";
 
     if (mysqli_query($koneksi, $query)) {
         echo "<script>
