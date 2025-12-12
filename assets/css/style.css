@@ -1,0 +1,173 @@
+/* ======================================================
+   GLOBAL STYLE
+====================================================== */
+
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: #f7f7f7;
+    color: #333;
+}
+
+/* Smooth Page Animation */
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+header {
+    border-bottom: 1px solid #eee;
+}
+
+header .nav-link {
+    color: #333;
+    font-weight: 500;
+}
+
+header .nav-link:hover {
+    color: #c8102e;
+    transition: 0.3s;
+}
+
+.btn-danger {
+    background-color: #c8102e;
+    border-color: #c8102e;
+}
+
+.btn-danger:hover {
+    background-color: #a90c26;
+    border-color: #a90c26;
+}
+
+/* ======================================================
+   HERO / BACKGROUND RED SECTION
+====================================================== */
+
+.hero {
+    background: linear-gradient(180deg, #c8102e 0%, #dd2b3f 60%, #ffffff 100%);
+    padding: 80px 0;
+    color: white;
+}
+
+/* Title animation */
+.hero h2, .hero p {
+    animation: fadeIn 1.4s ease-in-out;
+}
+
+/* ======================================================
+   FORM MAIN CARD
+====================================================== */
+
+.form-section {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.form-section .form-card {
+    width: 700px;
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    border-top: 5px solid #c8102e;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Input Style */
+.form-control {
+    border-radius: 7px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.form-control:focus {
+    border-color: #c8102e;
+    box-shadow: 0 0 5px rgba(200,16,46,0.3);
+    transition: 0.3s;
+}
+
+/* Label */
+label {
+    font-weight: 600;
+    color: #555;
+}
+
+/* Submit Button */
+.btn-submit {
+    background: #c8102e;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    color: white;
+    border-radius: 6px;
+}
+
+.btn-submit:hover {
+    background: #a40c26;
+    transition: 0.3s;
+}
+
+/* ======================================================
+   ICON FEATURES SECTION
+====================================================== */
+
+.feature-box {
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.15));
+    transition: 0.3s;
+}
+
+.feature-box:hover .feature-icon {
+    transform: scale(1.1);
+}
+
+/* ======================================================
+   FOOTER
+====================================================== */
+
+footer {
+    background: #c8102e;
+    color: white;
+    padding: 20px 0;
+    margin-top: 60px;
+}
+
+footer p {
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* ======================================================
+   MOBILE RESPONSIVE
+====================================================== */
+
+@media (max-width: 768px) {
+    .form-section .form-card {
+        width: 100%;
+    }
+
+    header .container {
+        flex-direction: column;
+    }
+
+    header nav {
+        margin-top: 10px;
+    }
+}
