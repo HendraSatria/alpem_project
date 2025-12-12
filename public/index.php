@@ -4,7 +4,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Aduan - ALPEM</title>
+    <title>ALPEM - Aplikasi Layanan Pengaduan Masyarakat</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,117 +27,115 @@
 
         <nav>
             <a href="index.php" class="nav-link d-inline mx-2 fw-semibold text-danger">Beranda</a>
-            <a href="data_aduan.php" class="nav-link d-inline mx-2 ">Data Aduan</a>
-            <a href="tentang.php" class="nav-link d-inline mx-2 ">Tentang</a>
+            <a href="data_aduan.php" class="nav-link d-inline mx-2">Data Aduan</a>
+            <a href="tentang.php" class="nav-link d-inline mx-2">Tentang</a>
             <a href="../auth/login.php" class="btn btn-outline-danger ms-3">Masuk Petugas/Admin</a>
+           
         </nav>
     </div>
 </header>
 
 
 <!-- ========================================================= -->
-<!-- HERO SECTION -->
+<!-- HERO SECTION (Background Merah Lengkung) -->
 <!-- ========================================================= -->
 <section class="py-5" style="
     background: linear-gradient(180deg, #c8102e 0%, #dd2b3f 60%, #ffffff 100%);
     color: white;
-    min-height: 250px;
+    min-height: 350px;
 ">
+
     <div class="container text-center mt-4">
-        <h2 class="fw-bold">Data Aduan Masyarakat</h2>
-        <p class="lead">Semua aduan yang telah dikirim oleh masyarakat tersaji di halaman ini</p>
+        <h2 class="fw-bold">Layanan Aspirasi dan Pengaduan Online Masyarakat</h2>
+        <p class="lead">Sampaikan laporan Anda langsung kepada instansi pemerintah berwenang</p>
+    </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- FORM ADUAN (Kotak Putih di Tengah) -->
+<!-- ========================================================= -->
+<section class="form-section" style="margin-top: -200px; margin-bottom: 60px;">
+    <div class="container d-flex justify-content-center">
+
+        <div class="p-4 bg-white shadow-lg rounded" style="width: 700px; border-top: 5px solid #c8102e;">
+
+            <h5 class="fw-bold mb-3 text-danger">Sampaikan Laporan Anda</h5>
+
+            <form action="proses_aduan.php" method="POST" enctype="multipart/form-data">
+
+                <!-- Nama -->
+                <label class="fw-semibold">Nama Pelapor</label>
+                <input type="text" name="nama_pelapor" class="form-control mb-3" required>
+
+                <!-- Alamat -->
+                <label class="fw-semibold">Alamat</label>
+                <input type="text" name="alamat" class="form-control mb-3">
+
+                <!-- NIK -->
+                <label class="fw-semibold">NIK</label>
+                <input type="number" name="nik" class="form-control mb-3">
+
+                <!-- Kontak -->
+                <label class="fw-semibold">Kontak / No Hp</label>
+                <input type="text" name="kontak" class="form-control mb-3" required>
+
+                <!-- Lokasi -->
+                <label class="fw-semibold">Lokasi Kejadian</label>
+                <input type="text" name="lokasi" class="form-control mb-3">
+
+                <!-- Foto -->
+                <label class="fw-semibold">Upload Bukti Foto</label>
+                <input type="file" name="bukti_foto" class="form-control mb-3">
+
+                <!-- Deskripsi -->
+                <label class="fw-semibold">Deskripsi Aduan</label>
+                <textarea name="deskripsi" rows="5" class="form-control mb-4" required></textarea>
+
+                <div class="text-end">
+                    <button class="btn btn-danger px-4">Kirim Aduan</button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </section>
 
 
 <!-- ========================================================= -->
-<!-- DATA ADUAN TABLE -->
+<!-- ALUR / LANGKAH-LANGKAH -->
 <!-- ========================================================= -->
-<section class="container" style="margin-top: -150px; margin-bottom: 60px;">
-    <div class="bg-white shadow-lg rounded p-4">
+<section class="container text-center my-5">
 
-        <h5 class="fw-bold text-danger mb-3">Daftar Aduan Masuk</h5>
-        <hr>
+    <div class="row mt-4">
 
-        <div class="table-responsive">
-
-            <table class="table table-bordered table-hover align-middle text-center">
-                <thead class="table-danger text-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pelapor</th>
-                        <th>Kontak</th>
-                        <th>Lokasi</th>
-                        <th>Bukti Foto</th>
-                        <th>Deskripsi</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php
-                    $query = "
-                        SELECT a.*, 
-                        (SELECT Status 
-                         FROM tanggapan 
-                         WHERE Id_aduan = a.Id_aduan 
-                         ORDER BY Id_tanggapan DESC LIMIT 1) AS status_aduan
-                        FROM aduan a 
-                        ORDER BY a.Id_aduan DESC
-                    ";
-                    $result = mysqli_query($koneksi, $query);
-                    $no = 1;
-
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-
-                            $status = $row['status_aduan'] ?? "Menunggu Tanggapan";
-
-                            $color = "secondary";
-                            if ($status == "diproses") $color = "info";
-                            if ($status == "data tidak lengkap") $color = "warning";
-                            if ($status == "selesai") $color = "success";
-                    ?>
-                    <tr>
-                        <td><?= $no++; ?></td>
-                        <td><?= htmlspecialchars($row['Nama_pelapor']); ?></td>
-                        <td><?= htmlspecialchars($row['Kontak']); ?></td>
-                        <td><?= htmlspecialchars($row['Lokasi']); ?></td>
-
-                        <td>
-                            <?php if ($row['Bukti_Foto']) { ?>
-                                <img src="../assets/img/<?= $row['Bukti_Foto']; ?>" 
-                                     width="60" class="rounded shadow-sm">
-                            <?php } else { ?>
-                                <span class="text-muted">Tidak ada</span>
-                            <?php } ?>
-                        </td>
-
-                        <td style="text-align:left;">
-                            <?= nl2br(htmlspecialchars($row['Deskripsi'])); ?>
-                        </td>
-
-                        <td>
-                            <span class="badge bg-<?= $color; ?>">
-                                <?= $status; ?>
-                            </span>
-                        </td>
-                    </tr>
-
-                    <?php
-                        }
-                    } else {
-                    ?>
-                    <tr>
-                        <td colspan="7" class="text-muted py-4">Belum ada aduan masuk.</td>
-                    </tr>
-
-                    <?php } ?>
-                </tbody>
-            </table>
-
+        <div class="col-md-3">
+            <img src="../assets/img/icon1.png" width="60">
+            <h6 class="fw-bold mt-2">Tulis Laporan</h6>
+            <p class="small text-muted">Masyarakat dapat menyampaikan laporan mengenai masalah publik.</p>
         </div>
+
+        <div class="col-md-3">
+            <img src="../assets/img/icon2.png" width="60">
+            <h6 class="fw-bold mt-2">Proses Verifikasi</h6>
+            <p class="small text-muted">Dalam 3 hari kerja aduan akan diverifikasi oleh petugas.</p>
+        </div>
+
+        <div class="col-md-3">
+            <img src="../assets/img/icon3.png" width="60">
+            <h6 class="fw-bold mt-2">Tindak Lanjut</h6>
+            <p class="small text-muted">Instansi terkait menindaklanjuti laporan masyarakat.</p>
+        </div>
+
+        <div class="col-md-3">
+            <img src="../assets/img/icon4.png" width="60">
+            <h6 class="fw-bold mt-2">Selesai</h6>
+            <p class="small text-muted">Pelapor mendapat pemberitahuan setelah laporan selesai.</p>
+        </div>
+
     </div>
+
 </section>
 
 
@@ -150,4 +148,3 @@
 
 </body>
 </html>
- 
