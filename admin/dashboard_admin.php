@@ -8,12 +8,27 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != "admin") {
     header("Location: ../auth/login.php");
     exit;
 }
+$data_grafik = mysqli_query($koneksi,"
+    SELECT MONTH(Tanggal_tanggapan) bulan, COUNT(*) total
+    FROM tanggapan
+    GROUP BY bulan
+");
+
 // Ambil jumlah data
 $jml_aduan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM aduan"))['total'];
 $jml_petugas = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM petugas"))['total'];
 
 // Ambil data aduan terbaru 5
-$aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan DESC LIMIT 5");
+$aduan_terbaru = mysqli_query($koneksi, "
+    SELECT a.*, 
+           t.Status,
+           p.Nama_Petugas
+    FROM aduan a
+    LEFT JOIN tanggapan t ON a.Id_aduan = t.Id_aduan
+    LEFT JOIN petugas p ON t.Id_petugas = p.Id_Petugas
+    ORDER BY a.Id_aduan DESC, t.Id_tanggapan
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +72,7 @@ $aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan D
                     <li class="nav-item mb-2"><a href="dashboard_admin.php" class="nav-link text-danger">Dashboard</a></li>
                     <li class="nav-item mb-2"><a href="kelola_petugas.php" class="nav-link text-dark">Kelola Petugas</a></li>
                     <li class="nav-item mb-2"><a href="unduh_laporan.php" class="nav-link text-dark">Unduh Laporan</a></li>
-                    <li class="nav-item mb-2"><a href="tanggapan.php" class="nav-link text-dark">Tanggapan Aduan</a></li>
+                  
                     <li class="nav-item mb-2"><a href="..\auth\logout.php" class="nav-link text-dark">Logout</a></li>
 
                 </ul>
@@ -82,6 +97,8 @@ $aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan D
                     </div>
                 </div>
             </div>
+            <canvas id="grafikBulanan" height="100"></canvas>
+
 
             <!-- TABEL ADUAN TERBARU -->
             <div class="bg-white shadow-sm rounded p-4">
@@ -95,6 +112,7 @@ $aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan D
                                 <th>Kontak</th>
                                 <th>Lokasi</th>
                                 <th>Deskripsi</th>
+                                <th>Petugas</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -116,6 +134,9 @@ $aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan D
                                 <td><?= htmlspecialchars($row['Kontak']); ?></td>
                                 <td><?= htmlspecialchars($row['Lokasi']); ?></td>
                                 <td style="text-align:left;"><?= nl2br(htmlspecialchars($row['Deskripsi'])); ?></td>
+                                <td>
+    <?= $row['Nama_Petugas'] ?? '<span class="text-muted">Belum ditanggapi</span>'; ?>
+</td>
                                 <td><span class="badge bg-<?= $color; ?>"><?= $status; ?></span></td>
                             </tr>
                             <?php } 
@@ -137,6 +158,30 @@ $aduan_terbaru = mysqli_query($koneksi, "SELECT * FROM aduan ORDER BY Id_aduan D
 <footer class="py-4 text-center text-white mt-4" style="background:#c8102e;">
     <p class="m-0">&copy; <?= date("Y"); ?> ALPEM - Aplikasi Pengaduan Masyarakat</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('grafikBulanan');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            <?php while($g = mysqli_fetch_assoc($data_grafik)) {
+                echo "'Bulan ".$g['bulan']."',";
+            } ?>
+        ],
+        datasets: [{
+            label: 'Jumlah Aduan',
+            data: [
+                <?php mysqli_data_seek($data_grafik,0);
+                while($g = mysqli_fetch_assoc($data_grafik)) {
+                    echo $g['total'].",";
+                } ?>
+            ]
+        }]
+    }
+});
+</script>
 
 </body>
 </html>

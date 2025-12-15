@@ -47,11 +47,13 @@ $petugas = mysqli_query($koneksi, "SELECT * FROM petugas ORDER BY Id_Petugas DES
         <div class="col-md-3 mb-4">
             <div class="bg-white shadow-sm rounded p-3">
                 <h5 class="fw-bold text-danger mb-3">Menu Admin</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="dashboard_admin.php" class="nav-link text-dark">Dashboard</a></li>
-                    <li class="nav-item mb-2"><a href="kelola_petugas.php" class="nav-link text-danger">Kelola Petugas</a></li>
+                 <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="dashboard_admin.php" class="nav-link text-danger">Dashboard</a></li>
+                    <li class="nav-item mb-2"><a href="kelola_petugas.php" class="nav-link text-dark">Kelola Petugas</a></li>
                     <li class="nav-item mb-2"><a href="unduh_laporan.php" class="nav-link text-dark">Unduh Laporan</a></li>
-                    <li class="nav-item mb-2"><a href="tanggapan.php" class="nav-link text-dark">Tanggapan Aduan</a></li>
+                  
+                    <li class="nav-item mb-2"><a href="..\auth\logout.php" class="nav-link text-dark">Logout</a></li>
+
                 </ul>
             </div>
         </div>

@@ -35,7 +35,7 @@ if (isset($_POST['login'])) {
                     exit;
                 } else {
                     // Petugas
-                    header("Location: ../admin/dashboard_petugas.php");
+                    header("Location: ../admin/petugas/dashboard_petugas.php");
                     exit;
                 }
 

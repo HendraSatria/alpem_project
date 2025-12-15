@@ -6,10 +6,13 @@ require '../../config/koneksi.php';
 // ======================================
 // 1. Proteksi halaman (Hanya Petugas/Admin yang sudah login)
 // ======================================
-if (!isset($_SESSION['id_petugas']) || ($_SESSION['role'] != "petugas" && $_SESSION['role'] != "admin")) {
-    header("Location: ../auth/login.php");
+// Proteksi: hanya petugas
+if (!isset($_SESSION['role']) || $_SESSION['role'] != "petugas") {
+    header("Location: ../../auth/login.php");
     exit;
 }
+
+
 
 $nama_petugas = $_SESSION['nama_petugas'];
 $role = $_SESSION['role'];
