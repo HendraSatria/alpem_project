@@ -60,7 +60,7 @@ $data = mysqli_query($koneksi, $query);
             <h4 class="fw-bold text-danger m-0">ALPEM</h4>
         </div>
         <nav>
-            <span class="me-3">Halo, <?= $_SESSION['nama_petugas']; ?> (Admin)</span>
+            <span class="me-3">Halo, <?= $_SESSION['nama_petugas']; ?> Admin</span>
             <a href="../auth/logout.php" class="btn btn-outline-danger">Logout</a>
         </nav>
     </div>
@@ -118,13 +118,7 @@ $data = mysqli_query($koneksi, $query);
                     </div>
                 </form>
 
-                <!-- TOMBOL UNDUH -->
-                <div class="mb-3 text-end">
-                    <a href="cetak_laporan.php?status=<?= $status; ?>&tgl_awal=<?= $tgl_awal; ?>&tgl_akhir=<?= $tgl_akhir; ?>"
-                       class="btn btn-outline-danger">
-                        Unduh PDF
-                    </a>
-                </div>
+                
 
                 <!-- TABEL LAPORAN -->
                 <div class="table-responsive">
@@ -162,5 +156,17 @@ $data = mysqli_query($koneksi, $query);
                             <tr>
                                 <td colspan="6" class="text-muted py-3">Data tidak ditemukan.</td>
                             </tr>
+                            
                         <?php } ?>
+                        <!-- TOMBOL UNDUH -->
+                <div class="mb-3 text-end">
+                    <a href="cetak_laporan.php?status=<?= $status; ?>&tgl_awal=<?= $tgl_awal; ?>&tgl_akhir=<?= $tgl_akhir; ?>"
+                       class="btn btn-outline-danger">
+                        Unduh PDF
+                    </a>
+                </div>
                         </tbody>
+
+
+
+
