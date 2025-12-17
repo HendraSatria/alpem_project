@@ -60,37 +60,68 @@ if (isset($_POST['login'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ALPEM</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-
-</head>
-<body style="background:#f5f5f5;">
-
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <div class="p-4 bg-white shadow-lg rounded" style="width: 420px; border-top: 5px solid #c8102e; animation: fadeIn 0.8s;">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#C8102E',
+                        'primary-dark': '#A00D25',
+                        'primary-light': '#FDE8EB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans antialiased text-gray-800">
+
+<div class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Decorative Background pattern -->
+    <div class="absolute inset-0 z-0 opacity-10">
+         <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="#C8102E" />
+            <path d="M0 0 C 50 100 80 100 100 0 Z" fill="#C8102E" opacity="0.5" />
+        </svg>
+    </div>
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md relative z-10 border-t-4 border-primary animate-fade-in-up">
         
-        <div class="text-center mb-3">
-            <img src="../assets/img/logo.png" width="80" class="mb-2">
-            <h4 class="fw-bold text-danger m-0">ALPEM</h4>
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-light text-primary mb-4">
+               <img src="../assets/img/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+            </div>
+            <h4 class="text-2xl font-bold text-gray-900">Selamat Datang di ALPEM</h4>
+            <p class="text-sm text-gray-500 mt-2">Silahkan login untuk masuk ke panel petugas/admin</p>
         </div>
 
-        <h5 class="fw-semibold text-center mb-3">Login Petugas / Admin</h5>
-
         <?php if (!empty($error)) { ?>
-            <div class="alert alert-danger py-2"><?= $error; ?></div>
+             <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm flex items-start gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><?= $error; ?></span>
+            </div>
         <?php } ?>
 
-        <form method="POST">
+        <form method="POST" class="space-y-5">
 
-            <div class="mb-3">
-                <label class="fw-semibold">Masuk Sebagai</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-danger text-white"><i class="bi bi-person-badge"></i></span>
-                    <select name="role" class="form-select" required>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Masuk Sebagai</label>
+                <div class="relative">
+                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                    </div>
+                    <select name="role" class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-sm bg-white" required>
                         <option value="" disabled selected>Pilih Peran Anda</option>
                         <option value="admin">Admin</option>
                         <option value="petugas">Petugas</option>
@@ -98,32 +129,47 @@ if (isset($_POST['login'])) {
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label class="fw-semibold">Username</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-danger text-white"><i class="bi bi-person"></i></span>
-                    <input type="text" name="username" class="form-control" required>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <input type="text" name="username" class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-sm placeholder-gray-400" placeholder="Masukkan username" required>
                 </div>
             </div>
 
-            <div class="mb-4">
-                <label class="fw-semibold">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-danger text-white"><i class="bi bi-lock"></i></span>
-                    <input type="password" name="password" class="form-control" required>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <input type="password" name="password" class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary text-sm placeholder-gray-400" placeholder="••••••••" required>
                 </div>
             </div>
 
-            <button type="submit" name="login" class="btn btn-danger w-100 fw-bold">Masuk</button>
+            <button type="submit" name="login" class="w-full bg-primary text-white py-2.5 rounded-lg font-bold shadow-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors">
+                Masuk ke Dashboard
+            </button>
         </form>
 
-        <p class="text-center mt-3 small">
-            © <?= date("Y"); ?> ALPEM – Aplikasi Pengaduan Masyarakat
-        </p>
+        <div class="mt-8 text-center text-xs text-gray-400">
+            &copy; <?= date("Y"); ?> ALPEM – Aplikasi Pengaduan Masyarakat
+        </div>
 
     </div>
-
 </div>
+
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translate3d(0, 20px, 0); }
+        to { opacity: 1; transform: none; }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.5s ease-out;
+    }
+</style>
 
 </body>
 </html>

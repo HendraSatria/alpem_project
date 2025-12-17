@@ -6,189 +6,191 @@ require '../config/koneksi.php';
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>ALPEM - Aplikasi Layanan Pengaduan Masyarakat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking Aduan - ALPEM</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#C8102E',
+                        'primary-dark': '#A00D25',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="bg-gray-50 font-sans antialiased text-gray-800 flex flex-col min-h-screen">
 
-<header class="shadow-sm" style="background: #ffffff;">
-    <div class="container py-3 d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <img src="../assets/img/logo.png" alt="Logo" width="90" class="me-4">
-            <h4 class="m-0 fw-bold text-danger">ALPEM</h4>
+<!-- NAVBAR -->
+<nav class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <img src="../assets/img/logo.png" alt="Logo" class="h-8 w-auto">
+                <a href="index.php" class="text-xl font-bold text-primary tracking-tight">ALPEM</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="index.php" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">Beranda</a>
+                <a href="data_aduan.php" class="text-primary font-bold text-sm">Data Aduan</a>
+                <a href="../auth/login.php" class="border border-primary text-primary px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition-all">Masuk</a>
+            </div>
         </div>
-
-        <nav>
-            <a href="index.php" class="nav-link d-inline mx-2 fw-semibold text-danger">Beranda</a>
-            <a href="data_aduan.php" class="nav-link d-inline mx-2">Data Aduan</a>
-            
-            <a href="tentang.php" class="nav-link d-inline mx-2">Tentang</a>
-            <a href="../auth/login.php" class="btn btn-outline-danger ms-3">Masuk Petugas/Admin</a>
-            
-        </nav>
     </div>
-</header>
+</nav>
 
-<section class="hero fade-in" style="padding: 60px 0; min-height: 200px;">
-    <div class="container text-center text-white mt-3">
-        <h2 class="fw-bold">Data Aduan Masyarakat</h2>
-        <p class="lead">Pantau seluruh aduan yang telah masuk ke sistem ALPEM</p>
+<!-- HERO -->
+<section class="bg-primary text-white py-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-primary-dark to-primary opacity-50"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <h2 class="text-3xl font-bold mb-2">Pantau Aduan Masyarakat</h2>
+        <p class="text-white/80 max-w-xl mx-auto">Transparansi layanan publik untuk Indonesia yang lebih baik.</p>
     </div>
 </section>
 
-<div class="container fade-in" style="margin-top: -100px; margin-bottom: 70px;">
-
-    <div class="p-4 bg-white shadow-lg rounded form-card">
-
-        <h5 class="fw-bold text-danger mb-3">Daftar Aduan Terbaru</h5>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <input type="text" id="searchInput" class="form-control"
-                    placeholder="🔍 Cari nama, kontak, atau lokasi aduan...">
+<!-- CONTENT -->
+<main class="flex-grow container mx-auto px-4 -mt-8 relative z-20 pb-12">
+    
+    <!-- Search Box -->
+    <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-100 max-w-4xl mx-auto mb-8">
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
+            <input type="text" id="searchInput" 
+                class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary sm:text-sm transition-all" 
+                placeholder="Cari berdasarkan nama, lokasi, atau isi aduan...">
         </div>
-
-
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center" id="aduanTable">
-
-
-                <thead class="table-danger">
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Pelapor</th>
-                        <th>Kontak</th>
-                        <th>Lokasi</th>
-                        <th>Bukti Foto</th>
-                        <th>Deskripsi</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody id="aduanBody">
-
-                    <?php
-                    $query = "
-                        SELECT a.*, 
-                        (SELECT Status FROM tanggapan 
-                         WHERE Id_aduan = a.Id_aduan 
-                         ORDER BY Id_tanggapan DESC LIMIT 1) AS status_aduan
-                        FROM aduan a ORDER BY a.Id_aduan DESC
-                    ";
-                    $result = mysqli_query($koneksi, $query);
-                    $no = 1;
-
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-
-                            $status = $row['status_aduan'] ?? "Menunggu Tanggapan";
-
-                            $color = "secondary";
-                            if ($status == "diproses") $color = "info";
-                            if ($status == "data tidak lengkap") $color = "warning";
-                            if ($status == "selesai") $color = "success";
-                            
-                            // *** PERBAIKAN 1: Buat string data pencarian ***
-                            $search_data = strtolower(
-                                htmlspecialchars($row['Nama_pelapor']) . " " . 
-                                htmlspecialchars($row['Kontak']) . " " . 
-                                htmlspecialchars($row['Lokasi'])
-                            );
-                    ?>
-
-                    <tr class="aduan-row" data-search="<?= $search_data; ?>">
-                        <td><?= $no++; ?></td>
-                        <td><?= htmlspecialchars($row['Nama_pelapor']); ?></td>
-                        <td><?= htmlspecialchars($row['Kontak']); ?></td>
-                        <td><?= htmlspecialchars($row['Lokasi']); ?></td>
-
-                        <td>
-                            <?php if ($row['Bukti_Foto']) { ?>
-                                <img src="../assets/img/<?= $row['Bukti_Foto']; ?>" 
-                                    width="80" class="rounded shadow-sm" alt="Bukti Foto">
-                            <?php } else { ?>
-                                <span class="text-muted">Tidak ada</span>
-                            <?php } ?>
-                        </td>
-
-                        <td class="text-start">
-                            <div style="max-width: 250px; margin:auto;">
-                                <?= nl2br(htmlspecialchars($row['Deskripsi'])); ?>
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="badge bg-<?= $color; ?> px-3 py-2">
-                                <?= $status; ?>
-                            </span>
-                        </td>
-                    </tr>
-
-                    <?php 
-                        } 
-                    } else { 
-                    ?>
-
-                    <tr>
-                        <td colspan="7" class="text-muted py-3 no-aduan">
-                            Belum ada aduan masuk.
-                        </td>
-                    </tr>
-
-                    <?php } ?>
-                </tbody>
-
-            </table>
-        </div>
-        <div id="noResults" class="text-center text-muted py-3" style="display: none;">
-            Tidak ada aduan yang cocok dengan kata kunci Anda.
-        </div>
-
     </div>
 
-</div>
+    <!-- Cards Grid -->
+    <div id="aduanContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <?php
+        $query = "
+            SELECT a.*, 
+            (SELECT Status FROM tanggapan 
+                WHERE Id_aduan = a.Id_aduan 
+                ORDER BY Id_tanggapan DESC LIMIT 1) AS status_aduan
+            FROM aduan a ORDER BY a.Id_aduan DESC
+        ";
+        $result = mysqli_query($koneksi, $query);
 
-<footer class="text-center py-4 text-white" style="background:#c8102e;">
-    <p class="m-0">&copy; <?= date("Y"); ?> ALPEM - Aplikasi Pengaduan Masyarakat</p>
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+
+                $status = $row['status_aduan'] ?? "Menunggu";
+                $colorClass = "bg-gray-100 text-gray-600"; // Default
+                if ($status == "diproses") $colorClass = "bg-blue-100 text-blue-700";
+                if ($status == "data tidak lengkap") $colorClass = "bg-yellow-100 text-yellow-700";
+                if ($status == "selesai") $colorClass = "bg-green-100 text-green-700";
+
+                $search_data = strtolower(htmlspecialchars($row['Nama_pelapor'] . " " . $row['Kontak'] . " " . $row['Lokasi'] . " " . $row['Deskripsi']));
+        ?>
+        
+        <!-- Card Item -->
+        <article class="aduan-item bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 flex flex-col" data-search="<?= $search_data; ?>">
+            <div class="p-5 flex-grow">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-sm">
+                            <?= strtoupper(substr($row['Nama_pelapor'], 0, 1)); ?>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-gray-900 text-sm"><?= htmlspecialchars($row['Nama_pelapor']); ?></h5>
+                            <p class="text-xs text-gray-500 flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <?= htmlspecialchars($row['Lokasi']); ?>
+                            </p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold <?= $colorClass; ?>">
+                        <?= ucfirst($status); ?>
+                    </span>
+                </div>
+
+                <p class="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                    <?= nl2br(htmlspecialchars($row['Deskripsi'])); ?>
+                </p>
+
+                <?php if ($row['Bukti_Foto']) { ?>
+                    <div class="mt-3">
+                        <img src="../assets/img/<?= $row['Bukti_Foto']; ?>" class="w-full h-48 object-cover rounded-lg" alt="Bukti Foto">
+                    </div>
+                <?php } ?>
+            </div>
+            
+            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500">
+                <span>ID: #<?= $row['Id_aduan']; ?></span>
+                <span><?= date('d M Y', strtotime($row['Tanggal_aduan'])); ?></span> // Assuming there's a date field, fallback if not
+            </div>
+        </article>
+
+        <?php 
+            } 
+        } else { 
+        ?>
+            <div class="col-span-full text-center py-12 text-gray-500">
+                <p>Belum ada aduan yang masuk.</p>
+            </div>
+        <?php } ?>
+    </div>
+
+    <!-- No Results State -->
+    <div id="noResults" class="hidden text-center py-12">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900">Tidak ada hasil ditemukan</h3>
+        <p class="text-gray-500">Coba kata kunci lain.</p>
+    </div>
+
+</main>
+
+<footer class="bg-gray-900 text-white py-8 mt-auto">
+    <div class="container mx-auto text-center">
+        <p class="text-sm opacity-70">&copy; <?= date("Y"); ?> ALPEM - Aplikasi Pengaduan Masyarakat</p>
+    </div>
 </footer>
 
 <script>
-const searchInput = document.getElementById("searchInput");
-const tableBody = document.getElementById("aduanBody");
-const noResultsDiv = document.getElementById("noResults"); // Elemen baru untuk pesan tidak ditemukan
-const allRows = tableBody.querySelectorAll(".aduan-row"); // Ambil semua baris aduan
+    const searchInput = document.getElementById("searchInput");
+    const container = document.getElementById("aduanContainer");
+    const noResults = document.getElementById("noResults");
+    const items = document.querySelectorAll(".aduan-item");
 
-searchInput.addEventListener("keyup", function () {
-    const keyword = this.value.toLowerCase().trim();
-    let rowCount = 0;
+    searchInput.addEventListener("keyup", function(e) {
+        const term = e.target.value.toLowerCase();
+        let hasResults = false;
 
-    // Iterasi melalui semua baris data
-    allRows.forEach(row => {
-        // Ambil data pencarian dari atribut data-search
-        const searchData = row.dataset.search; 
+        items.forEach(item => {
+            const data = item.getAttribute('data-search');
+            if(data.includes(term)) {
+                item.style.display = 'flex'; // Restore flex display
+                hasResults = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
 
-        if (searchData && searchData.includes(keyword)) {
-            // Jika keyword ditemukan, tampilkan baris
-            row.style.display = "";
-            rowCount++;
+        if(hasResults) {
+            noResults.classList.add('hidden');
         } else {
-            // Jika keyword tidak ditemukan, sembunyikan baris
-            row.style.display = "none";
+            noResults.classList.remove('hidden');
         }
     });
-
-    // Tampilkan/sembunyikan pesan "Tidak Ada Hasil"
-    if (rowCount === 0 && keyword !== "") {
-        noResultsDiv.style.display = "block";
-    } else {
-        noResultsDiv.style.display = "none";
-    }
-});
 </script>
-
 
 </body>
 </html>
