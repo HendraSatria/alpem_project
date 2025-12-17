@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nik        = mysqli_real_escape_string($koneksi, $_POST['nik']);
     $kontak     = mysqli_real_escape_string($koneksi, $_POST['kontak']);
     $lokasi     = mysqli_real_escape_string($koneksi, $_POST['lokasi']);
+    $bukti_foto = $_FILES['bukti_foto'];
     $deskripsi  = mysqli_real_escape_string($koneksi, $_POST['deskripsi']);
 
     // Proses upload foto
