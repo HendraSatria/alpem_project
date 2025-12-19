@@ -144,7 +144,7 @@
                         </div>
                         <!-- NIK -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">NIK (Opsional)</label>
+                            <label class="block text-sm font-semibold text-gray-700">NIK </label>
                             <input type="number" name="nik" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="16 digit NIK">
                         </div>
                     </div>
