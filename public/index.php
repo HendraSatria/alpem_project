@@ -65,8 +65,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
             <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center gap-3">
-                <img src="../assets/img/logo.png" alt="ALPEM Logo" class="h-10 w-auto">
+            <div class="flex-shrink-1 flex items-center gap-">
+                <img src="../assets/img/Logo1.png" alt="ALPEM Logo" class="h-20 w-auto">
                 <div>
                     <h1 class="text-2xl font-bold text-primary tracking-tight">ALPEM</h1>
                     <p class="text-[10px] text-gray-500 font-medium tracking-wide uppercase hidden sm:block">Layanan Pengaduan Masyarakat</p>
@@ -102,6 +102,10 @@
 
 <!-- HERO SECTION -->
 <section class="relative bg-gradient-to-br from-primary via-[#D92C45] to-primary-dark text-white pb-32 pt-16 overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../assets/img/bg2.jpg');"></div>
+    <!-- Red overlay with transparency -->
+    <div class="absolute inset-0 bg-red-500/30"></div>
     <!-- Decorations -->
     <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">
         <div class="absolute -top-24 -left-24 w-96 h-96 bg-white rounded-full mix-blend-overlay blur-3xl"></div>
