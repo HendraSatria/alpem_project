@@ -78,7 +78,7 @@
                 <a href="index.php" class="nav-link active">Beranda</a>
                 <a href="#stats" class="nav-link">Statistik</a>
                 <a href="#alur" class="nav-link">Alur</a>
-                <a href="#tentang" class="nav-link">Tentang</a>
+                <a href="tentang.php" class="nav-link">Tentang</a>
                 <div class="h-6 w-px bg-gray-200"></div>
                 <!-- Login Buttons -->
                 <div class="flex items-center gap-3">
@@ -201,43 +201,49 @@
 </section>
 
 
-<!-- STATISTIK (Dummy for Visual) -->
+<!-- STATISTIK REAL DARI DATABASE -->
+<?php
+// Statistik real
+$total_aduan = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM aduan"))['total'];
+$aduan_diproses = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT a.Id_aduan) as total FROM aduan a JOIN tanggapan t ON a.Id_aduan = t.Id_aduan WHERE t.Status = 'diproses'"))['total'];
+$aduan_selesai = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT a.Id_aduan) as total FROM aduan a JOIN tanggapan t ON a.Id_aduan = t.Id_aduan WHERE t.Status = 'selesai'"))['total'];
+$total_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT Kontak) as total FROM aduan"))['total'];
+?>
 <section id="stats" class="py-16 bg-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
             <h3 class="text-3xl font-bold text-gray-800">Seberapa Efektif Kami?</h3>
             <p class="text-gray-500 mt-2">Data laporan yang telah kami tangani</p>
         </div>
-        
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Card 1 -->
+            <!-- Card 1: Total Aduan -->
             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
                 <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-primary text-xl font-bold">L</div>
-                <h4 class="text-4xl font-bold text-gray-800 mb-1">100+</h4>
+                <h4 class="text-4xl font-bold text-gray-800 mb-1"><?= $total_aduan ?></h4>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Laporan Masuk</p>
             </div>
-            <!-- Card 2 -->
-             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+            <!-- Card 2: Diproses -->
+            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
                 <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600 font-bold">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <h4 class="text-4xl font-bold text-gray-800 mb-1">45</h4>
+                <h4 class="text-4xl font-bold text-gray-800 mb-1"><?= $aduan_diproses ?></h4>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Sedang Diproses</p>
             </div>
-             <!-- Card 3 -->
-             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+            <!-- Card 3: Selesai -->
+            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 font-bold">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
-                <h4 class="text-4xl font-bold text-gray-800 mb-1">50+</h4>
+                <h4 class="text-4xl font-bold text-gray-800 mb-1"><?= $aduan_selesai ?></h4>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Selesai</p>
             </div>
-             <!-- Card 4 -->
-             <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
+            <!-- Card 4: User Aktif -->
+            <div class="p-6 bg-white rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition-shadow">
                 <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 font-bold">
                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
-                <h4 class="text-4xl font-bold text-gray-800 mb-1">10k</h4>
+                <h4 class="text-4xl font-bold text-gray-800 mb-1"><?= $total_user ?></h4>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Masyarakat Aktif</p>
             </div>
         </div>
@@ -312,25 +318,39 @@
 </section>
 
 
-<!-- ========================================================= -->
-<!-- FOOTER -->
-<!-- ========================================================= -->
-<!-- FOOTER -->
-<footer class="bg-primary-dark text-white py-12">
+<!-- FOOTER PROFESIONAL -->
+<footer class="bg-primary-dark text-white pt-12 pb-6">
     <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
             <div class="mb-6 md:mb-0 text-center md:text-left">
-                <h4 class="text-2xl font-bold mb-2">ALPEM</h4>
-                <p class="text-white/70 text-sm">Aplikasi Layanan Pengaduan Masyarakat.</p>
+                <div class="flex items-center gap-2 mb-2 justify-center md:justify-start">
+                    <img src="../assets/img/logo.png" alt="ALPEM Logo" class="h-8 w-auto">
+                    <span class="text-2xl font-bold tracking-tight">ALPEM</span>
+                </div>
+                <p class="text-white/70 text-sm max-w-xs">Aplikasi Layanan Pengaduan Masyarakat berbasis web untuk transparansi dan pelayanan publik yang lebih baik.</p>
             </div>
-            
-            <div class="flex gap-6 text-sm text-white/80">
-                <a href="#" class="hover:text-white transition-colors">Tentang Kami</a>
-                <a href="#" class="hover:text-white transition-colors">Privasi</a>
-                <a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <h5 class="font-semibold mb-2 text-white">Kontak</h5>
+                <p class="text-white/80 text-sm">Email: <a href="mailto:info@alpem.com" class="underline hover:text-primary-light">info@alpem.com</a></p>
+                <p class="text-white/80 text-sm">Telepon: <a href="tel:02112345678" class="underline hover:text-primary-light">021-12345678</a></p>
+            </div>
+            <div class="text-center md:text-left">
+                <h5 class="font-semibold mb-2 text-white">Tautan</h5>
+                <ul class="space-y-1">
+                    <li><a href="tentang.php" class="hover:text-primary-light transition-colors">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-primary-light transition-colors">Kebijakan Privasi</a></li>
+                    <li><a href="#" class="hover:text-primary-light transition-colors">Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+            <div class="text-center md:text-left">
+                <h5 class="font-semibold mb-2 text-white">Ikuti Kami</h5>
+                <div class="flex gap-4 justify-center md:justify-start">
+                    <a href="#" class="hover:text-primary-light" title="Instagram"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5a5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5zm6 1.25a1 1 0 1 1-2 0a1 1 0 0 1 2 0z"/></svg></a>
+                    <a href="#" class="hover:text-primary-light" title="Facebook"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17 2.1c1.1 0 2 .9 2 2v15.8c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4.1c0-1.1.9-2 2-2h10zm-2.5 4.4h-1.2c-.3 0-.5.2-.5.5v1.2h1.7l-.2 1.7h-1.5v4.3h-1.8v-4.3H9.5V8.2h1.2V7.1c0-1.1.9-2 2-2h1.8v1.7z"/></svg></a>
+                    <a href="#" class="hover:text-primary-light" title="Twitter"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.59-2.47.7a4.3 4.3 0 0 0 1.88-2.37a8.59 8.59 0 0 1-2.72 1.04a4.28 4.28 0 0 0-7.29 3.9A12.13 12.13 0 0 1 3.1 4.9a4.28 4.28 0 0 0 1.32 5.71a4.23 4.23 0 0 1-1.94-.54v.05a4.28 4.28 0 0 0 3.43 4.19a4.3 4.3 0 0 1-1.93.07a4.29 4.29 0 0 0 4 2.98A8.6 8.6 0 0 1 2 19.54a12.13 12.13 0 0 0 6.56 1.92c7.88 0 12.2-6.53 12.2-12.2c0-.19 0-.38-.01-.57A8.7 8.7 0 0 0 24 4.59a8.5 8.5 0 0 1-2.54.7z"/></svg></a>
+                </div>
             </div>
         </div>
-        
         <div class="border-t border-white/10 mt-8 pt-8 text-center text-sm text-white/50">
             &copy; <?= date("Y"); ?> ALPEM. Hak Cipta Dilindungi Undang-Undang.
         </div>

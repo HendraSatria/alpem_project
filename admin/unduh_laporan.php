@@ -230,9 +230,7 @@ $data = mysqli_query($koneksi, $query);
                                         <?= strtoupper($s_val) ?>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right text-sm text-gray-500">
-                                    <?= $row['Tanggal_tanggapan'] ? date('d M Y', strtotime($row['Tanggal_tanggapan'])) : '-'; ?>
-                                </td>
+                                
                             </tr>
                         <?php }
                         } else { ?>

@@ -185,7 +185,7 @@ $tdl      = mysqli_fetch_row(mysqli_query($koneksi, "SELECT COUNT(*) FROM tangga
                                 <th class="px-6 py-4 font-semibold">Lokasi</th>
                                 <th class="px-6 py-4 font-semibold">Deskripsi</th>
                                 <th class="px-6 py-4 font-semibold">Status</th>
-                                <th class="px-6 py-4 font-semibold text-right">Tanggal</th>
+                                
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -220,9 +220,7 @@ $tdl      = mysqli_fetch_row(mysqli_query($koneksi, "SELECT COUNT(*) FROM tangga
                                         <?= ucfirst($s); ?>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right text-sm text-gray-500">
-                                    <?= date('d M Y', strtotime($d['Tanggal_aduan'])); ?>
-                                </td>
+                              
                             </tr>
                             <?php } ?>
                         </tbody>

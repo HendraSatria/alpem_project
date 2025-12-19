@@ -185,7 +185,7 @@ $aduan_terbaru = mysqli_query($koneksi, "
                             <div>
                                 <p class="text-sm font-medium text-gray-900 line-clamp-1"><?= htmlspecialchars($row['Nama_pelapor']) ?></p>
                                 <p class="text-xs text-gray-500">melapor: <span class="italic">"<?= substr(htmlspecialchars($row['Deskripsi']), 0, 30) ?>..."</span></p>
-                                <span class="text-[10px] text-gray-400 mt-1 block"><?= date('d M Y', strtotime($row['Tanggal_aduan'])) ?></span>
+                                
                             </div>
                         </div>
                         <?php } ?>

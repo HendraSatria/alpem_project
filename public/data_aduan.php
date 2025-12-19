@@ -131,10 +131,7 @@ require '../config/koneksi.php';
                 <?php } ?>
             </div>
             
-            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500">
-                <span>ID: #<?= $row['Id_aduan']; ?></span>
-                <span><?= date('d M Y', strtotime($row['Tanggal_aduan'])); ?></span> // Assuming there's a date field, fallback if not
-            </div>
+           
         </article>
 
         <?php 
