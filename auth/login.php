@@ -100,7 +100,7 @@ if (isset($_POST['login'])) {
         
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-light text-primary mb-4">
-               <img src="../assets/img/logo.png" alt="Logo" class="w-10 h-10 object-contain">
+               <img src="../assets/img/logo1.png" alt="Logo" class="w-30 h-30 object-contain">
             </div>
             <h4 class="text-2xl font-bold text-gray-900">Selamat Datang di ALPEM</h4>
             <p class="text-sm text-gray-500 mt-2">Silahkan login untuk masuk ke panel petugas/admin</p>

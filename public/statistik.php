@@ -63,16 +63,16 @@ while($row = mysqli_fetch_assoc($q_loc)) {
 
     <!-- NAVBAR -->
     <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-3">
-                    <img src="../assets/img/logo1.png" alt="ALPEM Logo" class="h-10 w-auto">
-                    <div>
-                        <h1 class="text-2xl font-bold text-primary tracking-tight">ALPEM</h1>
-                        <p class="text-[10px] text-gray-500 font-medium tracking-wide uppercase hidden sm:block">Layanan Pengaduan Masyarakat</p>
-                    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- Logo -->
+            <div class="flex-shrink-1 flex items-center gap-">
+                <img src="../assets/img/Logo1.png" alt="ALPEM Logo" class="h-20 w-auto">
+                <div>
+                    <h1 class="text-2xl font-bold text-primary tracking-tight">ALPEM</h1>
+                    <p class="text-[10px] text-gray-500 font-medium tracking-wide uppercase hidden sm:block">Layanan Pengaduan Masyarakat</p>
                 </div>
+            </div>
 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">

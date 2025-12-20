@@ -30,14 +30,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
             <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center gap-3">
-                <img src="../assets/img/logo1.png" alt="ALPEM Logo" class="h-10 w-auto">
+            <div class="flex-shrink-1 flex items-center gap-">
+                <img src="../assets/img/Logo1.png" alt="ALPEM Logo" class="h-20 w-auto">
                 <div>
                     <h1 class="text-2xl font-bold text-primary tracking-tight">ALPEM</h1>
                     <p class="text-[10px] text-gray-500 font-medium tracking-wide uppercase hidden sm:block">Layanan Pengaduan Masyarakat</p>
                 </div>
             </div>
-
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
                 <a href="index.php" class="nav-link text-gray-600 hover:text-primary font-medium transition-colors">Beranda</a>
