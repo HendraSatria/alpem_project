@@ -14,6 +14,12 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    
+    <style>
+    label:hover img {
+  filter: brightness(90%);
+}
+    </style>
     <script>
         tailwind.config = {
             theme: {
@@ -76,7 +82,7 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
                 <a href="index.php" class="nav-link active">Beranda</a>
-                <a href="#stats" class="nav-link">Statistik</a>
+                <a href="statistik.php" class="nav-link">Statistik</a>
                 <a href="#alur" class="nav-link">Alur</a>
                 <a href="tentang.php" class="nav-link">Tentang</a>
                 <div class="h-6 w-px bg-gray-200"></div>
@@ -121,12 +127,12 @@
 
 <!-- FORM ADUAN -->
 <section class="-mt-24 mb-20 relative z-20 px-4">
-    <div class="container mx-auto max-w-3xl">
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 transform transition-all hover:shadow-2xl">
+    <div class="container mx-auto max-w-2xl">
+        <div class="bg-white rounded-xl shadow-lg p-8">
             <!-- Header Form -->
-            <div class="bg-white p-6 border-b border-gray-100 flex items-center justify-between">
+            <div class="flex items-center justify-between border-b pb-4 mb-6">
                 <div>
-                    <h5 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <h5 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                         Sampaikan Laporan Anda
                     </h5>
@@ -134,72 +140,121 @@
                 </div>
             </div>
 
-            <div class="p-8">
-                <form action="proses_aduan.php" method="POST" enctype="multipart/form-data" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Nama -->
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">Nama Pelapor</label>
-                            <input type="text" name="nama_pelapor" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="Nama lengkap Anda" required>
-                        </div>
-                        <!-- NIK -->
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">NIK </label>
-                            <input type="number" name="nik" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="16 digit NIK">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Kontak -->
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">No. Handphone</label>
-                            <input type="text" name="kontak" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="Contoh: 08123456789" required>
-                        </div>
-                        <!-- Lokasi -->
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">Lokasi Kejadian</label>
-                            <input type="text" name="lokasi" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="Nama Jalan, Desa, Kecamatan">
-                        </div>
-                    </div>
-
-                    <!-- Alamat -->
+            <form action="proses_aduan.php" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Nama Pelapor -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Alamat Lengkap</label>
-                        <input type="text" name="alamat" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="Alamat domisili Anda">
+                        <label class="block text-sm font-semibold text-gray-700" for="nama_pelapor">Nama Pelapor</label>
+                        <input id="nama_pelapor" type="text" name="nama_pelapor" placeholder="Nama lengkap Anda" required class="w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" />
                     </div>
-
-                    <!-- Deskripsi -->
+                    <!-- NIK -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Isi Laporan</label>
-                        <textarea name="deskripsi" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm outline-none" placeholder="Jelaskan detail kejadian, waktu, dan pelaku jika ada..." required></textarea>
+                        <label class="block text-sm font-semibold text-gray-700" for="nik">NIK <span class="text-red-600">*</span></label>
+                        <input id="nik" type="text" name="nik" maxlength="16" pattern="[0-9]{16}" inputmode="numeric" required placeholder="Masukkan 16 digit NIK" class="w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" />
+                        <p class="text-xs text-gray-500">NIK harus terdiri dari 16 angka</p>
                     </div>
+                </div>
 
-                    <!-- Foto -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Kontak -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Bukti Foto Lampiran</label>
-                        <div class="flex items-center justify-center w-full">
-                            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-3 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                    </svg>
-                                    <p class="text-xs text-gray-500"><span class="font-semibold">Klik untuk upload</span></p>
-                                    <p class="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 2MB)</p>
-                                </div>
-                                <input id="dropzone-file" type="file" name="bukti_foto" class="hidden" />
-                            </label>
-                        </div>
+                        <label class="block text-sm font-semibold text-gray-700" for="kontak">No. Handphone <span class="text-red-600">*</span></label>
+                        <input id="kontak" type="text" name="kontak" maxlength="13" inputmode="numeric" pattern="^08[0-9]{8,11}$" required placeholder="+62" class="w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" />
+                        <p class="text-xs text-gray-500">Gunakan format 08xxxxxxxxxx (10–13 digit)</p>
                     </div>
-
-                    <div class="pt-4 border-t border-gray-100 flex justify-end">
-                        <button class="bg-primary text-white text-base font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center gap-2">
-                            <span>Kirim Laporan</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </button>
+                    <!-- Lokasi Kejadian -->
+                    <div class="space-y-4">
+                        <label class="block text-sm font-semibold text-gray-700">Lokasi Kejadian</label>
+                        <select id="provinsi" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" required>
+                            <option value="">Pilih Provinsi</option>
+                        </select>
+                        <select id="kabupaten" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
+                            <option value="">Pilih Kabupaten/Kota</option>
+                        </select>
+                        <select id="kecamatan" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
+                            <option value="">Pilih Kecamatan</option>
+                        </select>
+                        <select name="lokasi" id="desa" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
+                            <option value="">Pilih Desa</option>
+                        </select>
                     </div>
+                </div>
 
-                </form>
-            </div>
+                <!-- Alamat Lengkap -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700" for="alamat">Alamat Lengkap Pelapor</label>
+                    <textarea id="alamat" name="alamat" rows="3" placeholder="RT/RW, Dusun, Nomor Rumah" required class="w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition"></textarea>
+                </div>
+
+                <!-- Deskripsi -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700" for="deskripsi">Isi Laporan</label>
+                    <textarea id="deskripsi" name="deskripsi" rows="4" placeholder="Jelaskan detail kejadian, waktu, dan pelaku jika ada..." required class="w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition"></textarea>
+                </div>
+
+                <!-- Foto -->
+              <div class="space-y-2">
+  <label class="block text-sm font-semibold text-gray-700">
+    Bukti Foto Lampiran
+  </label>
+
+  <div class="flex items-center justify-center w-full">
+    <label
+      for="dropzone-file"
+      class="relative flex flex-col items-center justify-center w-full h-40
+             border-2 border-dashed border-gray-300 rounded-lg cursor-pointer
+             bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden"
+    >
+
+      <!-- Preview Image -->
+      <img id="previewImage"
+           class="hidden absolute inset-0 w-full h-full object-cover"
+           alt="Preview">
+
+      <!-- Default Content -->
+      <div id="placeholderContent"
+           class="flex flex-col items-center justify-center pt-5 pb-6 text-center">
+
+        <svg class="w-8 h-8 mb-3 text-gray-400"
+             xmlns="http://www.w3.org/2000/svg"
+             fill="none" viewBox="0 0 20 16">
+          <path stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2"
+                d="M13 13h3a3 3 0 0 0 0-6h-.025
+                   A5.56 5.56 0 0 0 16 6.5
+                   5.5 5.5 0 0 0 5.207 5.021
+                   C5.137 5.017 5.071 5 5 5
+                   a4 4 0 0 0 0 8h2.167
+                   M10 15V6m0 0L8 8m2-2 2 2"/>
+        </svg>
+
+        <p class="text-xs text-gray-500">
+          <span class="font-semibold">Klik untuk upload</span>
+        </p>
+        <p class="text-xs text-gray-500">
+          PNG, JPG, JPEG (Max 2MB)
+        </p>
+      </div>
+
+      <input id="dropzone-file"
+             type="file"
+             name="bukti_foto"
+             accept="image/png, image/jpeg"
+             class="hidden"
+             onchange="previewFile(this)">
+    </label>
+  </div>
+</div>
+
+
+                <div class="pt-4 border-t border-gray-100 flex justify-end">
+                    <button type="submit" class="bg-primary text-white text-base font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>Kirim Laporan</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 </section>
@@ -328,7 +383,7 @@ $total_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT K
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-0">
             <div class="mb-6 md:mb-0 text-center md:text-left">
                 <div class="flex items-center gap-2 mb-2 justify-center md:justify-start">
-                    <img src="../assets/img/logo.png" alt="ALPEM Logo" class="h-8 w-auto">
+                    <img src="../assets/img/logo1.png" alt="ALPEM Logo" class="h-8 w-auto">
                     <span class="text-2xl font-bold tracking-tight">ALPEM</span>
                 </div>
                 <p class="text-white/70 text-sm max-w-xs">Aplikasi Layanan Pengaduan Masyarakat berbasis web untuk transparansi dan pelayanan publik yang lebih baik.</p>
@@ -360,6 +415,107 @@ $total_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT K
         </div>
     </div>
 </footer>
+<script>
+const provinsi = document.getElementById("provinsi");
+const kabupaten = document.getElementById("kabupaten");
+const kecamatan = document.getElementById("kecamatan");
+const desa = document.getElementById("desa");
+
+fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(item => {
+      provinsi.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+    });
+  });
+
+// Provinsi → Kabupaten
+provinsi.addEventListener("change", function() {
+  kabupaten.innerHTML = `<option value="">Pilih Kabupaten/Kota</option>`;
+  kecamatan.innerHTML = `<option value="">Pilih Kecamatan</option>`;
+  desa.innerHTML = `<option value="">Pilih Desa</option>`;
+
+  kabupaten.disabled = true;
+  kecamatan.disabled = true;
+  desa.disabled = true;
+
+  if (this.value === "") return;
+
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${this.value}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(item => {
+        kabupaten.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+      });
+      kabupaten.disabled = false;
+    });
+});
+
+// Kabupaten → Kecamatan
+kabupaten.addEventListener("change", function() {
+  kecamatan.innerHTML = `<option value="">Pilih Kecamatan</option>`;
+  desa.innerHTML = `<option value="">Pilih Desa</option>`;
+
+  kecamatan.disabled = true;
+  desa.disabled = true;
+
+  if (this.value === "") return;
+
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${this.value}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(item => {
+        kecamatan.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+      });
+      kecamatan.disabled = false;
+    });
+});
+
+// Kecamatan → Desa
+kecamatan.addEventListener("change", function() {
+  desa.innerHTML = `<option value="">Pilih Desa</option>`;
+  desa.disabled = true;
+
+  if (this.value === "") return;
+
+  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${this.value}.json`)
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(item => {
+        desa.innerHTML += `<option value="${item.name}">${item.name}</option>`;
+      });
+      desa.disabled = false;
+    });
+});
+</script>
+<script>
+function previewFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Validasi tipe file
+  if (!file.type.startsWith("image/")) {
+    alert("File harus berupa gambar!");
+    input.value = "";
+    return;
+  }
+
+  // Validasi ukuran (2MB)
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Ukuran gambar maksimal 2MB!");
+    input.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById("previewImage").src = e.target.result;
+    document.getElementById("previewImage").classList.remove("hidden");
+    document.getElementById("placeholderContent").classList.add("hidden");
+  };
+  reader.readAsDataURL(file);
+}
+</script>
 
 </body>
 </html>

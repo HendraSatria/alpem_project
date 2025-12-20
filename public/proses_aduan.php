@@ -3,6 +3,16 @@ require '../config/koneksi.php';
 
 // Pastikan form dikirim melalui POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$allowed = ['jpg','jpeg','png'];
+$ext = strtolower(pathinfo($_FILES['bukti_foto']['name'], PATHINFO_EXTENSION));
+
+if (!in_array($ext, $allowed)) {
+    die("Format gambar tidak diizinkan");
+}
+
+if ($_FILES['bukti_foto']['size'] > 2*1024*1024) {
+    die("Ukuran gambar maksimal 2MB");
+}
 
     // Mengambil data dari form
     $nama       = mysqli_real_escape_string($koneksi, $_POST['nama_pelapor']);
