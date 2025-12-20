@@ -107,7 +107,8 @@
 <div class="h-20"></div> <!-- Spacer for fixed navbar -->
 
 <!-- HERO SECTION -->
-<section class="relative bg-gradient-to-br from-primary via-[#D92C45] to-primary-dark text-white pb-32 pt-16 overflow-hidden">
+<section class="relative min-h-screen bg-gradient-to-br from-primary via-[#D92C45] to-primary-dark text-white overflow-hidden flex items-center">
+
     <!-- Background Image -->
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../assets/img/bg2.jpg');"></div>
     <!-- Red overlay with transparency -->
