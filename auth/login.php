@@ -215,7 +215,7 @@ if (isset($_POST['login'])) {
     </div>
 
     <!-- Main Container -->
-    <div class="relative w-full max-w-4xl flex bg-white rounded-3xl shadow-2xl overflow-hidden m-4 animate-fade-in-up z-10 border border-gray-100">
+    <div class="relative w-full max-w-4xl flex bg-white rounded-3xl shadow-2xl overflow-hidden m-4 z-10 border border-gray-100">
         
         <!-- Left Side (Illustration/Brand) - Visible on larger screens -->
         <div class="hidden md:flex md:w-1/2 bg-primary relative items-center justify-center p-10 overflow-hidden">
@@ -310,16 +310,6 @@ if (isset($_POST['login'])) {
         </div>
     </div>
 </div>
-
-<style>
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translate3d(0, 40px, 0); }
-        to { opacity: 1; transform: none; }
-    }
-    .animate-fade-in-up {
-        animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-</style>
 
 </body>
 </html>
