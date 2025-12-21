@@ -69,7 +69,7 @@ $aduan_terbaru = mysqli_query($koneksi, "
     <aside class="w-64 bg-primary text-white flex flex-col shadow-xl z-20 hidden md:flex">
         <div class="h-16 flex items-center justify-center border-b border-primary-dark shadow-sm">
              <div class="flex items-center gap-2">
-                <img src="../assets/img/logo.png" alt="ALPEM" class="h-8 w-auto">
+                <img src="../assets/img/logo1.png" alt="ALPEM" class="h-8 w-auto">
                 <span class="text-xl font-bold tracking-tight">ALPEM</span>
             </div>
         </div>
