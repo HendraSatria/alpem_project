@@ -199,19 +199,30 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <button onclick="openModal(this)"
-                                        class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-md hover:bg-primary-dark transition-colors shadow-sm"
-                                        data-id="<?= $data['Id_aduan'] ?>"
-                                        data-nama="<?= htmlspecialchars($data['Nama_pelapor']) ?>"
-                                        data-lokasi="<?= htmlspecialchars($data['Lokasi']) ?>"
-                                        data-kontak="<?= htmlspecialchars($data['Kontak']) ?>"
-                                        data-deskripsi="<?= htmlspecialchars($data['Deskripsi']) ?>"
-                                        data-foto="<?= htmlspecialchars($data['Bukti_Foto']) ?>"
-                                        data-status="<?= $status ?>"
-                                    >
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                        Tanggapi
-                                    </button>
+                                    <div class="flex flex-col gap-2 justify-end">
+                                        <button onclick="openModal(this)"
+                                            class="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-md hover:bg-primary-dark transition-colors shadow-sm"
+                                            data-id="<?= $data['Id_aduan'] ?>"
+                                            data-nama="<?= htmlspecialchars($data['Nama_pelapor']) ?>"
+                                            data-lokasi="<?= htmlspecialchars($data['Lokasi']) ?>"
+                                            data-kontak="<?= htmlspecialchars($data['Kontak']) ?>"
+                                            data-deskripsi="<?= htmlspecialchars($data['Deskripsi']) ?>"
+                                            data-foto="<?= htmlspecialchars($data['Bukti_Foto']) ?>"
+                                            data-status="<?= $status ?>"
+                                        >
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                            Tanggapi
+                                        </button>
+                                        <button onclick="openStatusModal(this)"
+                                            class="inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-800 text-white text-xs font-medium rounded-md hover:bg-gray-900 transition-colors shadow-sm"
+                                            data-id="<?= $data['Id_aduan'] ?>"
+                                            data-nama="<?= htmlspecialchars($data['Nama_pelapor']) ?>"
+                                            data-status="<?= $status ?>"
+                                        >
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                            Ubah Status
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             <?php 
@@ -233,7 +244,7 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
     </div>
 </div>
 
-<!-- MODAL TANGGAPAN -->
+<!-- MODAL TANGGAPAN (Existing) -->
 <div id="modalBackdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" aria-hidden="true"></div>
 <div id="modalTanggapan" class="fixed inset-0 z-50 hidden overflow-y-auto px-4 py-8 flex items-center justify-center transition-all transform scale-95 opacity-0">
     <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-auto relative overflow-hidden flex flex-col max-h-[90vh]">
@@ -325,9 +336,67 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
     </div>
 </div>
 
+<!-- MODAL UPDATE STATUS (NEW) -->
+<div id="modalStatusBackdrop" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity opacity-0" aria-hidden="true"></div>
+<div id="modalStatus" class="fixed inset-0 z-50 hidden overflow-y-auto px-4 py-8 flex items-center justify-center transition-all transform scale-95 opacity-0">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-auto relative overflow-hidden flex flex-col">
+        
+        <!-- Header -->
+        <div class="px-6 py-4 bg-gray-800 text-white flex items-center justify-between shrink-0">
+            <h5 class="text-lg font-bold flex items-center gap-2">
+                Update Status
+            </h5>
+            <button onclick="closeStatusModal()" class="text-white/80 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6">
+             <form action="proses_tanggapan.php" method="POST">
+                <input type="hidden" name="id_aduan" id="status_aduan_id">
+                <input type="hidden" name="id_petugas" value="<?= $_SESSION['id_petugas'] ?>">
+                <!-- Empty isi_tanggapan let backend handle default message -->
+                <input type="hidden" name="isi_tanggapan" value=""> 
+                <input type="hidden" name="is_status_only" value="1"> 
+
+                <div class="space-y-4">
+                     <p class="text-sm text-gray-600">Update status laporan <strong id="status_nama_pelapor"></strong>?</p>
+                     
+                     <div class="space-y-2">
+                         <label for="new_status" class="block text-sm font-semibold text-gray-700">Pilih Status Baru</label>
+                         <div class="relative">
+                             <select name="status_tanggapan" id="new_status" class="w-full appearance-none px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer hover:border-gray-400 transition-colors" required>
+                                <option value="diproses">Proses (Sedang dikerjakan)</option>
+                                <option value="selesai">Selesai (Masalah teratasi)</option>
+                                <option value="data tidak lengkap">Tolak (Data tidak lengkap)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3">
+                    <button type="button" onclick="closeStatusModal()" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">Batal</button>
+                    <button type="submit" name="submit_tanggapan" class="px-5 py-2.5 rounded-lg bg-gray-800 text-white text-sm font-bold hover:bg-gray-900 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                        Update Status
+                    </button>
+                </div>
+
+             </form>
+        </div>
+    </div>
+</div>
+
 <script>
     const modal = document.getElementById('modalTanggapan');
     const backdrop = document.getElementById('modalBackdrop');
+    
+    // New Modal Elements
+    const modalStatus = document.getElementById('modalStatus');
+    const backdropStatus = document.getElementById('modalStatusBackdrop');
 
     function openModal(button) {
         // Get Data
@@ -383,6 +452,38 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
             backdrop.classList.add('hidden');
             modal.classList.add('hidden');
         }, 300); // Match transition duration
+    }
+
+    // --- Status Modal Functions ---
+    function openStatusModal(button) {
+        const id = button.getAttribute('data-id');
+        const nama = button.getAttribute('data-nama');
+        const status = button.getAttribute('data-status');
+
+        document.getElementById('status_aduan_id').value = id;
+        document.getElementById('status_nama_pelapor').textContent = nama;
+        
+        const select = document.getElementById('new_status');
+        if(status) {
+             select.value = status.toLowerCase();
+        }
+
+        backdropStatus.classList.remove('hidden');
+        modalStatus.classList.remove('hidden');
+        setTimeout(() => {
+            backdropStatus.classList.remove('opacity-0');
+            modalStatus.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+    }
+
+    function closeStatusModal() {
+        backdropStatus.classList.add('opacity-0');
+        modalStatus.classList.add('opacity-0', 'scale-95');
+        
+        setTimeout(() => {
+            backdropStatus.classList.add('hidden');
+            modalStatus.classList.add('hidden');
+        }, 300);
     }
 </script>
 

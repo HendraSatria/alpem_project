@@ -165,19 +165,13 @@
                     </div>
                     <!-- Lokasi Kejadian -->
                     <div class="space-y-4">
-                        <label class="block text-sm font-semibold text-gray-700">Lokasi Kejadian</label>
-                        <select id="provinsi" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" required>
-                            <option value="">Pilih Provinsi</option>
-                        </select>
-                        <select id="kabupaten" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
-                            <option value="">Pilih Kabupaten/Kota</option>
-                        </select>
-                        <select id="kecamatan" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
-                            <option value="">Pilih Kecamatan</option>
-                        </select>
-                        <select name="lokasi" id="desa" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" disabled required>
+                        <label class="block text-sm font-semibold text-gray-700">Lokasi Kejadian (Kecamatan Binangun)</label>
+                        <!-- Hidden inputs/removed as they are not sent to backend anyway, only 'lokasi' (Desa) is used if name='lokasi' matches -->
+                        
+                        <select name="lokasi" id="desa" class="form-select w-full rounded-md border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition" required>
                             <option value="">Pilih Desa</option>
                         </select>
+                        <p class="text-xs text-gray-500">Otomatis menampilkan desa di Kecamatan Binangun, Kab. Blitar, Jawa Timur.</p>
                     </div>
                 </div>
 
@@ -417,77 +411,16 @@ $total_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT K
     </div>
 </footer>
 <script>
-const provinsi = document.getElementById("provinsi");
-const kabupaten = document.getElementById("kabupaten");
-const kecamatan = document.getElementById("kecamatan");
 const desa = document.getElementById("desa");
 
-fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+// Fetch villages for Kecamatan Binangun (ID: 3505050)
+fetch("https://www.emsifa.com/api-wilayah-indonesia/api/villages/3505050.json")
   .then(res => res.json())
   .then(data => {
     data.forEach(item => {
-      provinsi.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+      desa.innerHTML += `<option value="${item.name}">${item.name}</option>`;
     });
   });
-
-// Provinsi → Kabupaten
-provinsi.addEventListener("change", function() {
-  kabupaten.innerHTML = `<option value="">Pilih Kabupaten/Kota</option>`;
-  kecamatan.innerHTML = `<option value="">Pilih Kecamatan</option>`;
-  desa.innerHTML = `<option value="">Pilih Desa</option>`;
-
-  kabupaten.disabled = true;
-  kecamatan.disabled = true;
-  desa.disabled = true;
-
-  if (this.value === "") return;
-
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${this.value}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(item => {
-        kabupaten.innerHTML += `<option value="${item.id}">${item.name}</option>`;
-      });
-      kabupaten.disabled = false;
-    });
-});
-
-// Kabupaten → Kecamatan
-kabupaten.addEventListener("change", function() {
-  kecamatan.innerHTML = `<option value="">Pilih Kecamatan</option>`;
-  desa.innerHTML = `<option value="">Pilih Desa</option>`;
-
-  kecamatan.disabled = true;
-  desa.disabled = true;
-
-  if (this.value === "") return;
-
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${this.value}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(item => {
-        kecamatan.innerHTML += `<option value="${item.id}">${item.name}</option>`;
-      });
-      kecamatan.disabled = false;
-    });
-});
-
-// Kecamatan → Desa
-kecamatan.addEventListener("change", function() {
-  desa.innerHTML = `<option value="">Pilih Desa</option>`;
-  desa.disabled = true;
-
-  if (this.value === "") return;
-
-  fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${this.value}.json`)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(item => {
-        desa.innerHTML += `<option value="${item.name}">${item.name}</option>`;
-      });
-      desa.disabled = false;
-    });
-});
 </script>
 <script>
 function previewFile(input) {

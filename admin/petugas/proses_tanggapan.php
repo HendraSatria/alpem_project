@@ -30,12 +30,29 @@ $isi        = mysqli_real_escape_string($koneksi, $_POST['isi_tanggapan']);
 $tanggal    = date('Y-m-d');
 
 // Validasi dasar
-if (empty($id_aduan) || empty($id_petugas) || empty($status) || empty($isi)) {
+if (empty($id_aduan) || empty($id_petugas) || empty($status)) {
     echo "<script>
         alert('Data tanggapan tidak lengkap!');
         window.location='tanggapan.php';
     </script>";
     exit;
+}
+
+// Check for status-only update
+$is_status_only = isset($_POST['is_status_only']) && $_POST['is_status_only'] == '1';
+
+if (empty($isi)) {
+    if ($is_status_only) {
+        // Auto-fill message for status update
+        $isi = "Status laporan diperbarui dari sistem menjadi: " . ucfirst($status);
+    } else {
+        // Normal flow requires content
+        echo "<script>
+            alert('Isi tanggapan tidak boleh kosong!');
+            window.location='tanggapan.php';
+        </script>";
+        exit;
+    }
 }
 
 // ======================================
