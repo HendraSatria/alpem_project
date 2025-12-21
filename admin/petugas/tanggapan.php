@@ -44,9 +44,6 @@ $query_aduan = "
 ";
 $result_aduan = mysqli_query($koneksi, $query_aduan);
 
-// Query untuk data yang akan digunakan di modal (jika perlu)
-// Biasanya data ini di-fetch via JavaScript, tapi kita siapkan kerangka PHP-nya.
-
 ?>
 
 <!DOCTYPE html>
