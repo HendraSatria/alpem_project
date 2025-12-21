@@ -37,7 +37,7 @@ require '../config/koneksi.php';
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center gap-2">
-                <img src="../assets/img/logo.png" alt="Logo" class="h-8 w-auto">
+                <img src="../assets/img/Logo1.png" alt="Logo" class="h-16 w-auto">
                 <a href="index.php" class="text-xl font-bold text-primary tracking-tight">ALPEM</a>
             </div>
             <div class="flex items-center space-x-6">
@@ -82,7 +82,20 @@ require '../config/koneksi.php';
             SELECT a.*, 
             (SELECT Status FROM tanggapan 
                 WHERE Id_aduan = a.Id_aduan 
-                ORDER BY Id_tanggapan DESC LIMIT 1) AS status_aduan
+                ORDER BY Id_tanggapan DESC LIMIT 1) AS status_aduan,
+            (SELECT Tanggal_tanggapan FROM tanggapan 
+                WHERE Id_aduan = a.Id_aduan 
+                ORDER BY Id_tanggapan DESC LIMIT 1) AS tgl_tanggapan,
+            (SELECT Isi_tanggapan FROM tanggapan 
+                WHERE Id_aduan = a.Id_aduan 
+                ORDER BY Id_tanggapan DESC LIMIT 1) AS isi_tanggapan,
+            (
+                SELECT p.Nama_Petugas 
+                FROM tanggapan t 
+                JOIN petugas p ON t.Id_petugas = p.Id_Petugas
+                WHERE t.Id_aduan = a.Id_aduan 
+                ORDER BY t.Id_tanggapan DESC LIMIT 1
+            ) AS nama_petugas
             FROM aduan a ORDER BY a.Id_aduan DESC
         ";
         $result = mysqli_query($koneksi, $query);
@@ -125,8 +138,27 @@ require '../config/koneksi.php';
                 </p>
 
                 <?php if ($row['Bukti_Foto']) { ?>
-                    <div class="mt-3">
+                    <div class="mt-3 mb-4">
                         <img src="../assets/img/<?= $row['Bukti_Foto']; ?>" class="w-full h-48 object-cover rounded-lg" alt="Bukti Foto">
+                    </div>
+                <?php } ?>
+
+                <?php if ($row['isi_tanggapan']) { ?>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex justify-between items-center mb-2">
+                             <p class="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                                Tanggapan
+                            </p>
+                            <span class="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-500">
+                                <?= date('d M Y', strtotime($row['tgl_tanggapan'])); ?>
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg mb-2">
+                            <?= nl2br(htmlspecialchars($row['isi_tanggapan'])); ?>
+                        </p>
+                         <p class="text-xs text-gray-400 text-right italic">
+                            Oleh: <?= htmlspecialchars($row['nama_petugas'] ?? 'Admin'); ?>
+                        </p>
                     </div>
                 <?php } ?>
             </div>

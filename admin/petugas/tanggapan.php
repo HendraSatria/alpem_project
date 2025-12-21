@@ -25,7 +25,20 @@ $query_aduan = "
         a.Id_aduan, a.Nama_pelapor, a.Kontak, a.Lokasi, a.Deskripsi, a.Bukti_Foto,
         (SELECT Status FROM tanggapan 
          WHERE Id_aduan = a.Id_aduan 
-         ORDER BY Id_tanggapan DESC LIMIT 1) AS status_terakhir
+         ORDER BY Id_tanggapan DESC LIMIT 1) AS status_terakhir,
+        (SELECT Isi_tanggapan FROM tanggapan 
+         WHERE Id_aduan = a.Id_aduan 
+         ORDER BY Id_tanggapan DESC LIMIT 1) AS isi_tanggapan,
+        (SELECT Tanggal_tanggapan FROM tanggapan 
+         WHERE Id_aduan = a.Id_aduan 
+         ORDER BY Id_tanggapan DESC LIMIT 1) AS tgl_tanggapan,
+        (
+            SELECT p.Nama_Petugas 
+            FROM tanggapan t 
+            JOIN petugas p ON t.Id_petugas = p.Id_Petugas
+            WHERE t.Id_aduan = a.Id_aduan 
+            ORDER BY t.Id_tanggapan DESC LIMIT 1
+        ) AS nama_petugas
     FROM aduan a
     ORDER BY a.Id_aduan DESC
 ";
@@ -139,9 +152,11 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
                     <table class="w-full text-left">
                         <thead>
                              <tr class="bg-gray-50 border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
-                                <th class="px-6 py-4 font-semibold w-16 text-center">No</th>
+                                <th class="px-6 py-4 font-semibold w-10 text-center">No</th>
                                 <th class="px-6 py-4 font-semibold">Pelapor</th>
-                                <th class="px-6 py-4 font-semibold w-1/3">Deskripsi</th>
+                                <th class="px-6 py-4 font-semibold w-1/4">Deskripsi</th>
+                                <th class="px-6 py-4 font-semibold w-1/4">Tanggapan Terakhir</th>
+                                <th class="px-6 py-4 font-semibold">Petugas</th>
                                 <th class="px-6 py-4 font-semibold">Status</th>
                                 <th class="px-6 py-4 font-semibold text-right">Aksi</th>
                             </tr>
@@ -165,7 +180,18 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
                                      <div class="text-xs text-gray-500 mt-1"><?= htmlspecialchars($data['Kontak']) ?></div>
                                 </td>
                                 <td class="px-6 py-4">
-                                     <div class="text-sm text-gray-600 line-clamp-2"><?= htmlspecialchars($data['Deskripsi']) ?></div>
+                                     <div class="text-sm text-gray-600 line-clamp-3"><?= htmlspecialchars($data['Deskripsi']) ?></div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <?php if($data['isi_tanggapan']) { ?>
+                                        <div class="text-sm text-gray-600 line-clamp-2"><?= htmlspecialchars($data['isi_tanggapan']) ?></div>
+                                        <div class="text-xs text-gray-400 mt-1"><?= date('d/m/Y', strtotime($data['tgl_tanggapan'])) ?></div>
+                                    <?php } else { ?>
+                                        <span class="text-xs text-gray-400 italic">- Belum ada -</span>
+                                    <?php } ?>
+                                </td>
+                                <td class="px-6 py-4">
+                                     <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($data['nama_petugas'] ?? '-') ?></div>
                                 </td>
                                 <td class="px-6 py-4">
                                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?= $colorClass ?>">
@@ -193,7 +219,7 @@ $result_aduan = mysqli_query($koneksi, $query_aduan);
                             } else {
                             ?>
                              <tr>
-                                <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                                <td colspan="7" class="px-6 py-8 text-center text-gray-500">
                                     Belum ada aduan yang masuk.
                                 </td>
                             </tr>

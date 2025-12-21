@@ -83,13 +83,13 @@
             <div class="hidden md:flex items-center space-x-8">
                 <a href="index.php" class="nav-link active">Beranda</a>
                 <a href="statistik.php" class="nav-link">Statistik</a>
+                <a href="data_aduan.php" class="nav-link">Data Aduan</a>
                 <a href="#alur" class="nav-link">Alur</a>
                 <a href="tentang.php" class="nav-link">Tentang</a>
                 <div class="h-6 w-px bg-gray-200"></div>
                 <!-- Login Buttons -->
                 <div class="flex items-center gap-3">
                     <a href="../auth/login.php" class="text-sm font-medium text-gray-600 hover:text-primary">Masuk</a>
-                    <a href="../auth/register.php" class="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-dark shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">Daftar</a>
                 </div>
             </div>
 

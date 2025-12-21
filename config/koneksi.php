@@ -3,7 +3,7 @@
 $host     = "localhost";
 $user     = "root";       // sesuaikan jika memakai user lain
 $pass     = "";           // sesuaikan dengan password MySQL anda
-$db       = "db_alpem1";   // sesuai dengan database yang anda buat
+$db       = "db_alpem";   // sesuai dengan database yang anda buat
 
 // Membuat Koneksi
 $koneksi = mysqli_connect($host, $user, $pass, $db);
