@@ -318,11 +318,11 @@ $total_user = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(DISTINCT K
 
             <!-- Step 1 -->
             <div class="relative z-10 bg-gray-50 text-center group">
-                <div class="w-16 h-16 mx-auto bg-white border-2 border-primary text-primary rounded-full flex items-center justify-center text-xl font-bold shadow-sm group-hover:scale-110 transition-transform duration-300 mb-6">
+                <div class="w-16 h-16 mx-auto bg-white border-2 border-gray-300 text-gray-400 rounded-full flex items-center justify-center text-xl font-bold shadow-sm group-hover:border-primary group-hover:text-primary group-hover:scale-110 transition-all duration-300 mb-6">
                     <span>1</span>
                 </div>
                 <!-- Icons replacements for img src -->
-                <div class="mb-4 text-primary">
+                <div class="mb-4 text-gray-400 group-hover:text-primary transition-colors">
                     <svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                 </div>
                 <h6 class="text-lg font-bold text-gray-900 mb-2">Tulis Laporan</h6>

@@ -17,6 +17,7 @@ $tgl_akhir = $_GET['tgl_akhir'] ?? '';
 $query = "
     SELECT a.*, 
            t.Status, 
+           t.Tanggal_tanggapan,
            p.Nama_Petugas
     FROM aduan a
     LEFT JOIN tanggapan t ON a.Id_aduan = t.Id_aduan
@@ -229,6 +230,9 @@ $data = mysqli_query($koneksi, $query);
                                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold <?= $colorClass ?>">
                                         <?= strtoupper($s_val) ?>
                                     </span>
+                                </td>
+                                <td class="px-6 py-4 text-right text-sm text-gray-500">
+                                    <?= $row['Tanggal_tanggapan'] ? date('d/m/Y', strtotime($row['Tanggal_tanggapan'])) : '-' ?>
                                 </td>
                                 
                             </tr>

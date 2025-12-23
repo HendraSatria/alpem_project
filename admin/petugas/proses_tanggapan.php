@@ -63,6 +63,11 @@ $query = "
     (Id_aduan, Id_petugas, Tanggal_tanggapan, Isi_tanggapan, Status)
     VALUES 
     ('$id_aduan', '$id_petugas', '$tanggal', '$isi', '$status')
+    ON DUPLICATE KEY UPDATE
+    Id_petugas = VALUES(Id_petugas),
+    Tanggal_tanggapan = VALUES(Tanggal_tanggapan),
+    Isi_tanggapan = VALUES(Isi_tanggapan),
+    Status = VALUES(Status)
 ";
 
 $insert = mysqli_query($koneksi, $query);

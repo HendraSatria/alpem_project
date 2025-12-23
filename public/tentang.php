@@ -132,7 +132,7 @@
     <section class="py-16 container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto items-center">
             <div>
-                <img src="../assets/img/visimisi.png" alt="Vision Mission" class="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                <img src="../assets/img/visi.jpg" alt="Vision Mission" class="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
             </div>
             <div>
                 <div class="mb-8">
@@ -186,7 +186,7 @@
             <div class="mb-10 ml-8 relative group">
                 <span class="absolute -left-11 top-0 w-6 h-6 bg-primary rounded-full border-4 border-white shadow-md group-hover:scale-125 transition-transform"></span>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <span class="text-xs font-bold text-primary uppercase tracking-wide">Desember 2024</span>
+                    <span class="text-xs font-bold text-primary uppercase tracking-wide">Desember 2025</span>
                     <h4 class="text-lg font-bold text-gray-800 mt-1">Versi 1.0 - Peluncuran Resmi</h4>
                     <p class="text-gray-600 mt-2 text-sm">Rilis perdana dengan fitur dasar pelaporan, autentikasi pengguna, dan dashboard admin untuk pengelolaan pengaduan.</p>
                 </div>
@@ -195,7 +195,7 @@
             <div class="mb-10 ml-8 relative group">
                 <span class="absolute -left-11 top-0 w-6 h-6 bg-gray-300 rounded-full border-4 border-white shadow-md group-hover:bg-primary transition-colors"></span>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow opacity-75">
-                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wide">Q1 2025 (Estimasi)</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wide">Q1 2026 (Estimasi)</span>
                     <h4 class="text-lg font-bold text-gray-800 mt-1">Versi 1.1 - Notifikasi Real-time</h4>
                     <p class="text-gray-600 mt-2 text-sm">Integrasi notifikasi email dan WhatsApp untuk setiap perubahan status laporan pengguna.</p>
                 </div>
